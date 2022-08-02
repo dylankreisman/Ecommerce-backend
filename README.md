@@ -1,4 +1,4 @@
-# E-commerce Back End Starter Code
+# E-commerce Back-End Application
 
 ## Description
 This project entailed configuring a back-end e-commerce framework so that data could be retrived through categories, products, and/or tags. For these through facets, the application could:
