@@ -1,19 +1,28 @@
 const router = require('express').Router();
-const { EmptyResultError } = require('sequelize/types');
 const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint
 
-router.get('/', async (req, res) => {
-  try {
-    const categoryData = await Category.findAll();
-    {include: [{ model: Product, attributes: ['id', 'product_name', 'price', 'stock', 'category_id']}]}
-  
-  res.status(200).json(categoryData)
-} catch(err) {
-  res.status(500).json(err);
-}
-});
+router.get('/', (req, res) => {
+
+   Category.findAll(
+    { include: [Product]
+       
+      })
+  .then((categoryData) => {
+    if(!categoryData){
+      res.json(404).json({ message: "No categories found"})
+      return;
+    }
+    else {
+      res.json(categoryData)
+    }
+  }) 
+    // .catch((err) => {
+    //   console.log(err);
+    //   res.status(500).json(err);
+    // })
+}) 
 
 router.get('/:id', async (req, res) => {
   try {
