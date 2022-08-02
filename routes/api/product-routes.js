@@ -7,12 +7,15 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 router.get('/', (req, res) => {
   Product.findAll({
 
-    //attributes: ["id", "product_name", "price", "stock"],
+    attributes: ["id", "product_name", "price", "stock"],
     include: [
-      Category,
+     {model: Category,
+      attributes: ["category_name"],
+      },
       {
         model: Tag,
-        through: ProductTag
+        attributes: ["tag_name"]
+      //  through: ProductTag,
       }
     ],
   })
@@ -26,7 +29,7 @@ router.get('/', (req, res) => {
 
 // get one product
 router.get('/:id', (req, res) => {
-  Product.findByPk(req.params.id, {
+  Product.findOne({
     where: {
       id: req.params.id
     },
